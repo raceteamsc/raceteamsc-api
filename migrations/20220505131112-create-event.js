@@ -25,6 +25,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN,
       },
+      canceled: {
+        allowNull: true,
+        type: Sequelize.BOOLEAN,
+        default: false
+      },
       date: {
         allowNull: false,
         type: Sequelize.DATE,

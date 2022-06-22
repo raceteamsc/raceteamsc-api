@@ -14,6 +14,21 @@ class MembersController {
     try {
       const member = await database.Members.findOne({
         where: { number: number },
+        include: database.Members
+      });
+      if (!member)
+        return res.status(500).json("Membro não encontrado");
+      return res.status(200).json(member);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+  static async getMemberById(req, res) {
+    const { id } = req.params;
+    try {
+      const member = await database.Members.findOne({
+        where: { id: id },
+        include: database.Members
       });
       if (!member)
         return res.status(500).json("Membro não encontrado");
@@ -29,6 +44,17 @@ class MembersController {
       const events = await database.EventsConfirmations.findAll({ where: {member_id: Number(id)}});
       return res.status(200).json(events);
     } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+
+  static async getStatus(req, res) {
+    const { id, eventId } = req.params;
+    try {
+      const event = await database.EventsConfirmations.findOne({ where: {member_id: Number(id), event_id: Number(eventId)}});
+      return res.status(200).json(event ? event.status : "pending");
+    } catch (error) {
+      console.error(error.message);
       return res.status(500).json(error.message);
     }
   }

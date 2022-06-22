@@ -13,12 +13,16 @@ module.exports = {
         type: Sequelize.STRING,
       },
       latitude: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.FLOAT,
       },
       longitude: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.FLOAT,
+      },
+      random: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

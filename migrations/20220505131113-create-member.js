@@ -8,6 +8,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      friend_id: {
+        allowNull: true,
+        type: Sequelize.INTEGER,
+        references: { model: 'Members', key: 'id' },
+      },
       name: {
         allowNull: false,
         type: Sequelize.STRING,

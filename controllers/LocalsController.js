@@ -3,7 +3,7 @@ const database = require('../models');
 class LocalsController {
   static async getAllLocals(req, res) {
     try {
-      const Locals = await database.Locals.findAll();
+      const Locals = await database.Locals.findAll({where: { random: true }});
       return res.status(200).json(Locals);
     } catch (error) {
       return res.status(500).json(error.message);

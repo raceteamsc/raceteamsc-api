@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       date: DataTypes.DATEONLY,
       member_only: DataTypes.BOOLEAN,
       payable: DataTypes.BOOLEAN,
+      canceled: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATEONLY,
       updatedAt: DataTypes.DATEONLY,
     },

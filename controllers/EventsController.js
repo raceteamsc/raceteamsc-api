@@ -1,9 +1,12 @@
 const database = require('../models');
+const { Op } = require("sequelize");
 
 class EventsController {
   static async getAllEvents(req, res) {
     try {
-      const events = await database.Events.findAll();
+      const events = await database.Events.findAll({
+        include: database.Locals
+      });
       return res.status(200).json(events);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -14,6 +17,25 @@ class EventsController {
     try {
       const event = await database.Events.findOne({
         where: { id: Number(id) },
+        include: database.Locals
+      });
+      return res.status(200).json(event);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+  static async searchEvent(req, res) {
+    const { search } = req.query;
+    console.log(req.query);
+    try {
+      const event = await database.Events.findOne({
+        where: {
+          name: 
+          {
+            [Op.iLike]: search
+          }
+        },
+        include: database.Locals
       });
       return res.status(200).json(event);
     } catch (error) {
@@ -62,8 +84,8 @@ class EventsController {
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(id), member_id: Number(memberId)}});
       if (eventConfirm)
       {
-        if (eventConfirm.status != "recused")
-          return res.status(409).json("O membro já está confirmado nesse evento");
+        eventConfirm = await database.EventsConfirmations.update({status: "confirmed"}, {where: {event_id: Number(id), member_id: Number(memberId)}})
+        return res.status(200).json(eventConfirm);
       }
       eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), status: "confirmed"});
       return res.status(200).json(eventConfirm);
@@ -117,9 +139,16 @@ class EventsController {
   static async getParticipants(req, res) {
     const { id } = req.params;
     try {
-      const events = await database.EventsConfirmations.findAll({ where: {event_id: Number(id)}});
+      const events = await database.EventsConfirmations.findAll({ 
+        where: {
+          event_id: Number(id),
+          status: ["confirmed", "checkin"]
+        },
+        include: { all: true }
+      });
       return res.status(200).json(events);
     } catch (error) {
+      console.error(error);
       return res.status(500).json(error.message);
     }
   }
@@ -142,7 +171,25 @@ class EventsController {
     const { id } = req.params;
     try {
       await database.Events.destroy({ where: { id: Number(id) } });
-      return res.status(200).json({ mensagem: `id ${id} deletado` });
+      return res.status(200).json({ mensagem: `evento id ${id} deletado` });
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+  static async cancelEvent(req, res) {
+    const { id } = req.params;
+    try {
+      await database.Events.update({canceled: true}, { where: { id: Number(id) } });
+      return res.status(200).json({ mensagem: `evento id ${id} cancelado` });
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+  static async uncancelEvent(req, res) {
+    const { id } = req.params;
+    try {
+      await database.Events.update({canceled: false}, { where: { id: Number(id) } });
+      return res.status(200).json({ mensagem: `evento id ${id} descancelado` });
     } catch (error) {
       return res.status(500).json(error.message);
     }
