@@ -52,7 +52,9 @@ class MembersController {
     const { id, eventId } = req.params;
     try {
       const event = await database.EventsConfirmations.findOne({ where: {member_id: Number(id), event_id: Number(eventId)}});
-      return res.status(200).json(event ? event.status : "pending");
+      if (!event)
+        return res.status(404).json({});
+      return res.status(200).json(event);
     } catch (error) {
       console.error(error.message);
       return res.status(500).json(error.message);

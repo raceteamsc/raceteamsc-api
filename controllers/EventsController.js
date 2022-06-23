@@ -60,18 +60,18 @@ class EventsController {
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(id), member_id: Number(memberId)}});
       if (eventConfirm)
       {
-        if (eventConfirm.status == "recused")
+        if (eventConfirm.confirmed == false)
         {
           return res.status(409).json("O membro já recusado.");
         }
-        if (eventConfirm.status == "checkin")
+        if (eventConfirm.checkin == true)
         {
           return res.status(409).json("Não pôde ser recusado, o check-in já foi feito. Faça o check-out antes.");
         }
-        await database.EventsConfirmations.update({status: "recused"}, { where: {event_id: Number(id), member_id: Number(memberId)}});
+        await database.EventsConfirmations.update({confirmed: false}, { where: {event_id: Number(id), member_id: Number(memberId)}});
         return res.status(200).json("O membro estava confirmado nesse evento");
       }
-      eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), status: "recused"});
+      eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), confirmed: false});
       return res.status(200).json("Membro recusado");
     } catch (error) {
       return res.status(500).json(error.message);
@@ -84,10 +84,10 @@ class EventsController {
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(id), member_id: Number(memberId)}});
       if (eventConfirm)
       {
-        eventConfirm = await database.EventsConfirmations.update({status: "confirmed"}, {where: {event_id: Number(id), member_id: Number(memberId)}})
+        eventConfirm = await database.EventsConfirmations.update({confirmed: true}, {where: {event_id: Number(id), member_id: Number(memberId)}})
         return res.status(200).json(eventConfirm);
       }
-      eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), status: "confirmed"});
+      eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), confirmed: true});
       return res.status(200).json(eventConfirm);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -95,22 +95,22 @@ class EventsController {
   }
   static async checkinParticipant(req, res) {
     const { id } = req.params;
-    const { memberId, status } = req.body;
+    const { memberId } = req.body;
     try {
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(id), member_id: Number(memberId)}});
       if (!eventConfirm)
       {
         return res.status(409).json("O membro não está confirmado nesse evento");
       }
-      if (eventConfirm.status == "recused")
+      if (eventConfirm.confirmed == false)
       {
         return res.status(409).json("Você não pode fazer o check-in de um membro que recusou esse evento");
       }
-      if (eventConfirm.status == "checkin")
+      if (eventConfirm.checkin == true)
       {
         return res.status(409).json("O membro já está com o checkin feito");
       }
-      await database.EventsConfirmations.update({status: "checkin"}, { where: {event_id: Number(id), member_id: Number(memberId)}});
+      await database.EventsConfirmations.update({checkin: false}, { where: {event_id: Number(id), member_id: Number(memberId)}});
       return res.status(200).json("Check-in feito");
     } catch (error) {
       return res.status(500).json(error.message);
@@ -118,18 +118,18 @@ class EventsController {
   }
   static async checkoutParticipant(req, res) {
     const { id } = req.params;
-    const { memberId, status } = req.body;
+    const { memberId } = req.body;
     try {
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(id), member_id: Number(memberId)}});
       if (!eventConfirm)
       {
         return res.status(409).json("O membro não está confirmado nesse evento");
       }
-      if (eventConfirm.status != "checkin")
+      if (eventConfirm.checkin == true)
       {
         return res.status(409).json("O membro não está com o checkin feito");
       }
-      await database.EventsConfirmations.update({status: "confirmed"}, { where: {event_id: Number(id), member_id: Number(memberId)}});
+      await database.EventsConfirmations.update({checkin: false}, { where: {event_id: Number(id), member_id: Number(memberId)}});
       return res.status(200).json("Check-out feito");
     } catch (error) {
       return res.status(500).json(error.message);
@@ -142,7 +142,7 @@ class EventsController {
       const events = await database.EventsConfirmations.findAll({ 
         where: {
           event_id: Number(id),
-          status: ["confirmed", "checkin"]
+          confirmed: true
         },
         include: { all: true }
       });

@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       member_id: DataTypes.INTEGER,
       event_id: DataTypes.INTEGER,
-      status: DataTypes.STRING,
+      confirmed: DataTypes.BOOLEAN,
+      checkin: DataTypes.BOOLEAN,
+      paid: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATEONLY,
       updatedAt: DataTypes.DATEONLY,
     },
@@ -19,5 +21,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'event_id',
     });
   };
+  EventsConfirmations.removeAttribute("id");
   return EventsConfirmations;
 };

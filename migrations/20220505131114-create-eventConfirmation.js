@@ -2,25 +2,29 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('EventsConfirmations', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
       member_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        primaryKey: true,
         references: { model: 'Members', key: 'id' },
       },
       event_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        primaryKey: true,
         references: { model: 'Events', key: 'id' },
       },
-      status: {
+      confirmed: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
+      },
+      checkin: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
+      paid: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
