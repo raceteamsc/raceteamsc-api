@@ -13,6 +13,7 @@ class EventsController {
             }
           }
         },
+        order: [['date']],
         include: database.Locals
       });
       return res.status(200).json(events);

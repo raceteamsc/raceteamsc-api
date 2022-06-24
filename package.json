@@ -1,5 +1,5 @@
 {
-  "name": "apiverdadeslides",
+  "name": "sharkbotapi",
   "version": "1.1.5",
   "description": "-- npm i dotenv sequelize mysql2 express -- npm i --save-dev nodemon",
   "main": "index.js",
@@ -23,18 +23,13 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "start": "nodemon ./src/api/index.js \"npm run lint\"",
+    "start": "node index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/murilofernandesbr/apiverdadeslides.git"
+    "type": "git"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/murilofernandesbr/apiverdadeslides/issues"
-  },
-  "homepage": "https://github.com/murilofernandesbr/apiverdadeslides#readme"
+  "license": "ISC"
 }
