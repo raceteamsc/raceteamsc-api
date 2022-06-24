@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "guhlgcpthmzjym",
-    "password": "918ca70b17146716f34e05e6d3b4683ade04226647048b72fe460b7e6e332f20",
-    "database": "dem6uvcncevl1u",
-    "host": "ec2-23-23-151-191.compute-1.amazonaws.com",
+    "username": "postgres",
+    "password": "8489",
+    "database": "sharkbot",
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false
   },
@@ -16,11 +16,11 @@
     "operatorsAliases": false
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
+    "username": "guhlgcpthmzjym",
+    "password": "918ca70b17146716f34e05e6d3b4683ade04226647048b72fe460b7e6e332f20",
+    "database": "dem6uvcncevl1u",
+    "host": "ec2-23-23-151-191.compute-1.amazonaws.com:5432",
+    "dialect": "postgres",
     "operatorsAliases": false
   }
 }
