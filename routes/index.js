@@ -5,6 +5,11 @@ const members = require('./membersRoute');
 const locals = require('./localsRoute');
 
 module.exports = (app) => {
-  app.use(bodyParser.urlencoded({ extended: true, limit: 52428800 }));
-  app.use(bodyParser.json({ limit: 52428800 }), events, members, locals);
+  const checkHeader = (req, res, next) => {
+    if (req.headers.auth == "b6f1eb97-84ad-4156-bde2-f1e14d8e7cdf")
+      next();
+    else
+      res.status(401).json({message: "You do not have permission to access this route"})
+  }
+  app.use("/api", checkHeader, bodyParser.json({ limit: 52428800 }), events, members, locals);
 };
