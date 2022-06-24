@@ -8,6 +8,8 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 routes(app);
 
+app.use(express.static('public'));
+
 server.listen(port, () =>
   console.log(`servidor está rodando na porta ${port}`),
 );
