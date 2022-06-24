@@ -5,6 +5,14 @@ class EventsController {
   static async getAllEvents(req, res) {
     try {
       const events = await database.Events.findAll({
+        where: {
+          date: {
+            [Op.or]: {
+              [Op.gte]: new Date(),
+              [Op.eq]: null
+            }
+          }
+        },
         include: database.Locals
       });
       return res.status(200).json(events);
