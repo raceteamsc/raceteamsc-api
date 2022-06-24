@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "8489",
-    "database": "sharkbot",
-    "host": "127.0.0.1",
+    "username": "guhlgcpthmzjym",
+    "password": "918ca70b17146716f34e05e6d3b4683ade04226647048b72fe460b7e6e332f20",
+    "database": "dem6uvcncevl1u",
+    "host": "ec2-23-23-151-191.compute-1.amazonaws.com",
     "dialect": "postgres",
     "operatorsAliases": false
   },
