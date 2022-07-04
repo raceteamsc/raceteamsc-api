@@ -41,7 +41,6 @@ class PayController {
         };
         try
         {
-          console.log("Creating payment...");
           const payId = await new Promise((res, rej) => {
             mercadopago.preferences.create(preference)
               .then(function(response){
@@ -49,12 +48,10 @@ class PayController {
               }).catch(function(error){
                 rej(error);
               });
-            mercadopago.payment.create()
           });
           console.log("Insercing payment no DB...");
           const paid = await database.EventsPayments.create({guid: payId.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
-          console.log(payId)
-          return res.status(200).json(payId);
+          return res.status(200).json("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" +payId.id);
         }
         catch(error)
         {
