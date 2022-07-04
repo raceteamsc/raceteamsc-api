@@ -27,15 +27,12 @@ class PayController {
             phone: {
               area_code: '48',
               number: Number(eventConfirm.Member.number.replace("5548", ""))
-            },
-            identification: {
-              type: "MemberId",
-              number: eventConfirm.Member.id + ""
             }
           },
           notification_url: "https://sharkwpbotapi.herokuapp.com/pay/update",
           items: [
             {
+              id: eventConfirm.Event.id + "",
               title: 'Pagamento do evento ' + eventConfirm.Event.name,
               unit_price: eventConfirm.Event.price,
               quantity: 1,
@@ -84,12 +81,18 @@ class PayController {
       if (topic == "payment")
       {
         const payment = await mercadopago.payment.findById(data_id);
-        const { payer } = payment.additional_info;
-        if (payment.status == 'approved')
+        const { payer } = payment.body.additional_info;
+        const event = payment.body.additional_info.items[0];
+        if (payment.body.status == 'approved')
         {
-          await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: Number(payer.identification.number)}});
-          //await database.EventsConfirmations.update({paid: true}, { where: {member_id: Number(payer.identification.number)}})
+          const number = `55${payer.phone.area_code}${payer.phone.number}`;
+          const member = await database.Members.findOne({
+            where: { number: number }
+          });
+          await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: member.id, event_id: Number(event.id)}});
+          await database.EventsConfirmations.update({paid: true}, { where: {member_id:member.id, event_id: Number(event.id)}})
           res.status(200).json("Approved");
+          return;
         }
       }
       res.status(200).json(payment);
