@@ -5,6 +5,8 @@ const cors = require('cors');
 const server = require('http').createServer(app);
 const port = process.env.PORT || 3000;
 
+app.engine('html', require('ejs').renderFile);
+
 app.use(cors());
 routes(app);
 

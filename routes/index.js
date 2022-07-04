@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const events = require('./eventsRoute');
 const members = require('./membersRoute');
 const locals = require('./localsRoute');
+const pay = require('./eventsPaymentRoute');
 
 module.exports = (app) => {
   const checkHeader = (req, res, next) => {
@@ -12,4 +13,5 @@ module.exports = (app) => {
       res.status(401).json({message: "You do not have permission to access this route"})
   }
   app.use("/api", checkHeader, bodyParser.json({ limit: 52428800 }), events, members, locals);
+  app.use("/pay", bodyParser.json({ limit: 52428800 }), pay);
 };
