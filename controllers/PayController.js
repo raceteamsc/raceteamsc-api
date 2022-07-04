@@ -96,6 +96,22 @@ class PayController {
       res.status(500).json(err);
     }
   }
+  static async checkPay(req, res) {
+    const { eventId, memberId } = req.query;
+    try {
+      var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
+      if (eventConfirm)
+      {
+        res.status(200).json(eventConfirm.paid);
+        return;
+      }
+      res.status(500).json("Não confirmado no evento");
+    }
+    catch(err)
+    {
+      res.status(500).json(err);
+    }
+  }
 }
 
 module.exports = PayController;
