@@ -9,7 +9,6 @@ mercadopago.configure({
 
 class PayController {
   static async createPay(req, res) {
-    console.log(req);
     const { eventId, memberId } = req.body;
     try {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
@@ -51,7 +50,7 @@ class PayController {
           });
           console.log("Insercing payment no DB...");
           const paid = await database.EventsPayments.create({guid: payId.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
-          return res.status(200).json("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" +payId.id);
+          return res.status(200).json("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + payId.id);
         }
         catch(error)
         {
@@ -92,7 +91,7 @@ class PayController {
           return;
         }
       }
-      res.status(200).json(payment);
+      res.status(200).json({});
     }
     catch(err)
     {
