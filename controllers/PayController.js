@@ -14,7 +14,7 @@ class PayController {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
       if (eventPayExistent)
       {
-        return res.status(200).json("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + eventPayExistent.guid);
+        return res.status(200).json("https://sharkwpbotapi.herokuapp.com/pay/link/" + eventPayExistent.guid);
       }
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}, include: [database.Members, database.Events]});
       if (eventConfirm)
@@ -50,7 +50,7 @@ class PayController {
           });
           console.log("Insercing payment no DB...");
           const paid = await database.EventsPayments.create({guid: payId.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
-          return res.status(200).json("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + payId.id);
+          return res.status(200).json("https://sharkwpbotapi.herokuapp.com/pay/link/" + payId.id);
         }
         catch(error)
         {
