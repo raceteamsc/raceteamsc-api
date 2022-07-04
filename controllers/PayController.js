@@ -70,12 +70,11 @@ class PayController {
     res.redirect("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + guid);
   }
   static async payUpdate(req, res) {
-    const {data_id, type} = req.query;
     try
     {
-      if (type == "payment")
+      if (req.query["type"] == "payment")
       {
-        const payment = await mercadopago.payment.findById(data_id);
+        const payment = await mercadopago.payment.findById(req.query["data.id"]);
         const { payer } = payment.body.additional_info;
         const event = payment.body.additional_info.items[0];
         console.log(payment.body);
