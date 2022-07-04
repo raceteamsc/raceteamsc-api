@@ -149,7 +149,7 @@ class EventsController {
       {
         return res.status(409).json("O membro não está confirmado nesse evento");
       }
-      if (eventConfirm.checkin == true)
+      if (eventConfirm.checkin == false)
       {
         return res.status(409).json("O membro não está com o checkin feito");
       }
