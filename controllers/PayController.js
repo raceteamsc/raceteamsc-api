@@ -1,10 +1,10 @@
 const database = require('../models');
-var path = require('path');
 // SDK do Mercado Pago
 const mercadopago = require ('mercadopago');
 // Adicione as credenciais
 mercadopago.configure({
-  access_token: 'TEST-955896192475306-062215-6b0160d96f5bd32973edce49c6513dde-228477385'
+  access_token: 'APP_USR-955896192475306-062215-be3dd45f006923e8f148aba62ebe519b-228477385'
+  //access_token: 'TEST-955896192475306-062215-6b0160d96f5bd32973edce49c6513dde-228477385'
 });
 
 class PayController {
@@ -77,7 +77,6 @@ class PayController {
         const payment = await mercadopago.payment.findById(req.query["data.id"]);
         const { payer } = payment.body.additional_info;
         const event = payment.body.additional_info.items[0];
-        console.log(payment.body);
         if (payment.body.status == 'approved')
         {
           const number = `55${payer.phone.area_code}${payer.phone.number}`;
