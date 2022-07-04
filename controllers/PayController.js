@@ -71,10 +71,10 @@ class PayController {
   }
   static async payUpdate(req, res) {
     const {data_id} = req.query;
-    const {topic} = req.body;
+    const {type} = req.body;
     try
     {
-      if (topic == "payment")
+      if (type == "payment")
       {
         const payment = await mercadopago.payment.findById(data_id);
         const { payer } = payment.body.additional_info;
