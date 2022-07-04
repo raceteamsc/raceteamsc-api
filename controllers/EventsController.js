@@ -134,7 +134,7 @@ class EventsController {
       {
         return res.status(409).json("O membro já está com o checkin feito");
       }
-      await database.EventsConfirmations.update({checkin: false}, { where: {event_id: Number(id), member_id: Number(memberId)}});
+      await database.EventsConfirmations.update({checkin: true}, { where: {event_id: Number(id), member_id: Number(memberId)}});
       return res.status(200).json("Check-in feito");
     } catch (error) {
       return res.status(500).json(error.message);
