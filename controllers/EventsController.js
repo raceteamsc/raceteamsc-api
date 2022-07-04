@@ -102,6 +102,25 @@ class EventsController {
       return res.status(500).json(error.message);
     }
   }
+  static async paidParticipant(req, res) {
+    const { id } = req.params;
+    const { memberId } = req.body;
+    try {
+      var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(id), member_id: Number(memberId)}});
+      if (!eventConfirm)
+      {
+        return res.status(409).json("O membro não está confirmado nesse evento");
+      }
+      if (eventConfirm.checkin == true)
+      {
+        return res.status(409).json("O membro já está com o checkin feito");
+      }
+      await database.EventsConfirmations.update({paid: true}, { where: {event_id: Number(id), member_id: Number(memberId)}});
+      return res.status(200).json("Pagamento feito");
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
   static async checkinParticipant(req, res) {
     const { id } = req.params;
     const { memberId } = req.body;

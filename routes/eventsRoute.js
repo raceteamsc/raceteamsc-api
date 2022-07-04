@@ -9,6 +9,7 @@ router
   .get('/events/:id/participants', EventsController.getParticipants)
   .post('/events/:id/participants', EventsController.confirmParticipant)
   .post('/events/:id/checkin', EventsController.checkinParticipant)
+  .post('/events/:id/pay', EventsController.paidParticipant)
   .post('/events/:id/checkout', EventsController.checkoutParticipant)
   .post('/events/:id/recuse', EventsController.recuseParticipant)
   .post('/events',EventsController.createEvent)
