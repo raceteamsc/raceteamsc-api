@@ -83,7 +83,7 @@ class PayController {
     {
       if (topic == "payment")
       {
-        const payment = await mercadopago.preferences.findById(id);
+        const payment = await mercadopago.payment.findById(id);
         const { payer } = payment.additional_info;
         if (payment.status == 'approved')
         {
