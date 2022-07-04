@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       member_only: DataTypes.BOOLEAN,
       payable: DataTypes.BOOLEAN,
       pix: DataTypes.STRING,
+      price: DataTypes.FLOAT,
       canceled: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATEONLY,
       updatedAt: DataTypes.DATEONLY,

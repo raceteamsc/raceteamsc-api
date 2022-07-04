@@ -29,6 +29,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
+      price: {
+        allowNull: true,
+        type: Sequelize.FLOAT,
+      },
       canceled: {
         allowNull: true,
         type: Sequelize.BOOLEAN,
