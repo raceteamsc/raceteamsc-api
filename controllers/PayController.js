@@ -77,17 +77,18 @@ class PayController {
     res.redirect("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + guid);
   }
   static async payUpdate(req, res) {
-    const {id} = req.query;
+    const {data_id} = req.query;
     const {topic} = req.body;
     try
     {
       if (topic == "payment")
       {
-        const payment = await mercadopago.payment.findById(id);
+        const payment = await mercadopago.payment.findById(data_id);
         const { payer } = payment.additional_info;
         if (payment.status == 'approved')
         {
           await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: Number(payer.identification.number)}});
+          //await database.EventsConfirmations.update({paid: true}, { where: {member_id: Number(payer.identification.number)}})
           res.status(200).json("Approved");
         }
       }
