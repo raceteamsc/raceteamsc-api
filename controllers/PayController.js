@@ -28,7 +28,10 @@ class PayController {
               area_code: '48',
               number: Number(eventConfirm.Member.number.replace("5548", ""))
             },
-            identification: eventConfirm.Member.id
+            identification: {
+              type: "MemberId",
+              number: eventConfirm.Member.id + ""
+            }
           },
           notification_url: "https://sharkwpbotapi.herokuapp.com/pay/update",
           items: [
@@ -84,7 +87,7 @@ class PayController {
         const { payer } = payment.additional_info;
         if (payment.status == 'approved')
         {
-          await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: Number(payer.identification)}});
+          await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: Number(payer.identification.number)}});
           res.status(200).json("Approved");
         }
       }
