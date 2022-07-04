@@ -79,6 +79,7 @@ class PayController {
         const payment = await mercadopago.payment.findById(data_id);
         const { payer } = payment.body.additional_info;
         const event = payment.body.additional_info.items[0];
+        console.log(payment.body);
         if (payment.body.status == 'approved')
         {
           const number = `55${payer.phone.area_code}${payer.phone.number}`;
@@ -91,7 +92,7 @@ class PayController {
           return;
         }
       }
-      res.status(200).json({});
+      res.status(500).json({});
     }
     catch(err)
     {
