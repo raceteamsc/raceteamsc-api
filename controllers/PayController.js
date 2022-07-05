@@ -14,7 +14,7 @@ class PayController {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
       if (eventPayExistent)
       {
-        return res.status(200).json("https://sharkwpbotapi.herokuapp.com/pay/link/" + eventPayExistent.guid);
+        return res.status(200).json("http://sharkrunners.com.br/pay/link/" + eventPayExistent.guid);
       }
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}, include: [database.Members, database.Events]});
       if (eventConfirm)
@@ -50,7 +50,7 @@ class PayController {
           });
           console.log("Insercing payment no DB...");
           const paid = await database.EventsPayments.create({guid: payId.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
-          return res.status(200).json("https://sharkwpbotapi.herokuapp.com/pay/link/" + payId.id);
+          return res.status(200).json("http://sharkrunners.com.br/pay/" + payId.id);
         }
         catch(error)
         {
@@ -77,6 +77,7 @@ class PayController {
         const payment = await mercadopago.payment.findById(req.query["data.id"]);
         const { payer } = payment.body.additional_info;
         const event = payment.body.additional_info.items[0];
+        console.log(payment.body);
         if (payment.body.status == 'approved')
         {
           const number = `55${payer.phone.area_code}${payer.phone.number}`;
