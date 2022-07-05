@@ -97,7 +97,7 @@ class PayController {
           return res.status(200).json(merchant.body);
         }
       }
-      return res.status(500).json({});
+      return res.status(500).json(req.query);
     }
     catch(err)
     {
