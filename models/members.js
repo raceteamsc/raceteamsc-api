@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       number: DataTypes.STRING,
+      cpf: DataTypes.STRING,
       role: DataTypes.STRING,
       friend_id: DataTypes.INTEGER,
       createdAt: DataTypes.DATEONLY,

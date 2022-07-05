@@ -24,9 +24,9 @@ class PayController {
         let preference = {
           payer: {
             name: eventConfirm.Member.name,
-            phone: {
-              area_code: '48',
-              number: Number(eventConfirm.Member.number.replace("5548", ""))
+            identification: {
+              type: 'CPF',
+              number: eventConfirm.Member.cpf
             }
           },
           notification_url: "https://sharkwpbotapi.herokuapp.com/pay/update",
@@ -82,9 +82,8 @@ class PayController {
         const event = payment.body.additional_info.items[0];
         if (payment.body.status == 'approved')
         {
-          const number = `55${payer.phone.area_code}${payer.phone.number}`;
           const member = await database.Members.findOne({
-            where: { number: number }
+            where: { cpf: payer.identification.number }
           });
           await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: member.id, event_id: Number(event.id)}});
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:member.id, event_id: Number(event.id)}})
