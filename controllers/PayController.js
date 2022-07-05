@@ -91,11 +91,11 @@ class PayController {
           await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: member.id, eventId: event.id});
           return res.status(200).json(payment.body);
         }
-        if (req.query["type"] == "merchant_order" || req.query["topic"] == "merchant_order")
-        {
-          const merchant = await mercadopago.merchant_orders.findById(req.query["data.id"]||req.query["id"])
-          return res.status(200).json(merchant.body);
-        }
+      }
+      if (req.query["type"] == "merchant_order" || req.query["topic"] == "merchant_order")
+      {
+        const merchant = await mercadopago.merchant_orders.findById(req.query["data.id"]||req.query["id"])
+        return res.status(200).json(merchant.body);
       }
       return res.status(500).json(req.query);
     }
