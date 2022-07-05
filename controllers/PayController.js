@@ -4,8 +4,8 @@ const axios = require('axios');
 const mercadopago = require ('mercadopago');
 // Adicione as credenciais
 mercadopago.configure({
-  //access_token: 'APP_USR-955896192475306-062215-be3dd45f006923e8f148aba62ebe519b-228477385'
-  access_token: 'TEST-955896192475306-062215-6b0160d96f5bd32973edce49c6513dde-228477385'
+  access_token: 'APP_USR-955896192475306-062215-be3dd45f006923e8f148aba62ebe519b-228477385'
+  //access_token: 'TEST-955896192475306-062215-6b0160d96f5bd32973edce49c6513dde-228477385'
 });
 
 class PayController {
