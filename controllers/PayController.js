@@ -73,7 +73,7 @@ class PayController {
   static async payUpdate(req, res) {
     try
     {
-      if (req.query["type"] == "payment")
+      if (req.query["type"] == "payment" || req.query["topic"] == "payment")
       {
         const payment = await mercadopago.payment.findById(req.query["data.id"]||req.query["id"]);
         const { payer } = payment.body.additional_info;
@@ -91,7 +91,7 @@ class PayController {
           await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: member.id, eventId: event.id});
           return res.status(200).json(payment.body);
         }
-        if (req.query["topic"] == "merchant_order")
+        if (req.query["type"] == "merchant_order" || req.query["topic"] == "merchant_order")
         {
           const merchant = await mercadopago.merchant_orders.findById(req.query["data.id"]||req.query["id"])
           return res.status(200).json(merchant.body);
