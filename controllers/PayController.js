@@ -75,7 +75,7 @@ class PayController {
     {
       if (req.query["type"] == "payment")
       {
-        const payment = await mercadopago.payment.findById(req.query["data.id"]);
+        const payment = await mercadopago.payment.findById(req.query["data.id"]||req.query["id"]);
         const { payer } = payment.body.additional_info;
         const event = payment.body.additional_info.items[0];
         console.log(payment.body);
@@ -89,15 +89,19 @@ class PayController {
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:member.id, event_id: Number(event.id)}})
           //Send to BOT payment receive
           await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: member.id, eventId: event.id});
-          res.status(200).json("Approved");
-          return;
+          return res.status(200).json(payment.body);
+        }
+        if (req.query["topic"] == "merchant_order")
+        {
+          const merchant = await mercadopago.merchant_orders.findById(req.query["data.id"]||req.query["id"])
+          return res.status(200).json(merchant.body);
         }
       }
-      res.status(500).json({});
+      return res.status(500).json({});
     }
     catch(err)
     {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   }
   static async checkPay(req, res) {
