@@ -75,10 +75,11 @@ class PayController {
     {
       if (req.query["type"] == "payment" || req.query["topic"] == "payment")
       {
+        console.log(req.query);
         const payment = await mercadopago.payment.findById(req.query["data.id"]||req.query["id"]);
+        console.log(payment.body);
         const { payer } = payment.body.additional_info;
         const event = payment.body.additional_info.items[0];
-        console.log(payment.body);
         if (payment.body.status == 'approved')
         {
           const number = `55${payer.phone.area_code}${payer.phone.number}`;
