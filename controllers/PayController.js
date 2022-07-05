@@ -15,7 +15,7 @@ class PayController {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
       if (eventPayExistent)
       {
-        return res.status(200).json("http://sharkrunners.com.br/pay/" + eventPayExistent.guid);
+        return res.status(200).json("http://www.sharkrunners.com.br/pay/" + eventPayExistent.guid);
       }
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}, include: [database.Members, database.Events]});
       if (eventConfirm)
@@ -51,7 +51,7 @@ class PayController {
           });
           console.log("Insercing payment no DB...");
           const paid = await database.EventsPayments.create({guid: payId.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
-          return res.status(200).json("http://sharkrunners.com.br/pay/" + payId.id);
+          return res.status(200).json("http://www.sharkrunners.com.br/pay/" + payId.id);
         }
         catch(error)
         {
