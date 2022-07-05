@@ -1,4 +1,5 @@
 const database = require('../models');
+const axios = require('axios');
 // SDK do Mercado Pago
 const mercadopago = require ('mercadopago');
 // Adicione as credenciais
@@ -86,6 +87,8 @@ class PayController {
           });
           await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: member.id, event_id: Number(event.id)}});
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:member.id, event_id: Number(event.id)}})
+          //Send to BOT payment receive
+          await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: member.id, eventId: event.id});
           res.status(200).json("Approved");
           return;
         }

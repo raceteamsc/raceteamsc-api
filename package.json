@@ -4,6 +4,7 @@
   "description": "-- npm i dotenv sequelize mysql2 express -- npm i --save-dev nodemon",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
