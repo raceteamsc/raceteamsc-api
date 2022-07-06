@@ -25,6 +25,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN,
       },
+      media_url: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       pix: {
         allowNull: true,
         type: Sequelize.STRING,
