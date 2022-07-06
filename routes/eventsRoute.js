@@ -5,7 +5,7 @@ const router = Router();
 router
   .get('/events', EventsController.getAllEvents)
   .get('/events/:id', EventsController.getEvent)
-  .get('/search/events', EventsController.searchEvent)
+  .get('/search/events/:search', EventsController.searchEvent)
   .get('/events/:id/participants', EventsController.getParticipants)
   .post('/events/:id/participants', EventsController.confirmParticipant)
   .post('/events/:id/checkin', EventsController.checkinParticipant)

@@ -1,4 +1,5 @@
 const database = require('../models');
+const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 
 class EventsController {
@@ -34,15 +35,12 @@ class EventsController {
     }
   }
   static async searchEvent(req, res) {
-    const { search } = req.query;
-    console.log(req.query);
+    const { search } = req.params;
+    console.log(req.params);
     try {
-      const event = await database.Events.findOne({
+      const event = await database.Events.findAll({
         where: {
-          name: 
-          {
-            [Op.iLike]: search
-          }
+          name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Events.name')), 'LIKE', '%' + search + '%')
         },
         include: database.Locals
       });
