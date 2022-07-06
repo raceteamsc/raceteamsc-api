@@ -41,7 +41,7 @@ class PayController {
         };
         try
         {
-          const payId = await new Promise((res, rej) => {
+          const pref = await new Promise((res, rej) => {
             mercadopago.preferences.create(preference)
               .then(function(response){
                 res(response.body);
@@ -49,9 +49,8 @@ class PayController {
                 rej(error);
               });
           });
-          console.log("Insercing payment no DB...");
-          const paid = await database.EventsPayments.create({guid: payId.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
-          return res.status(200).json("http://www.sharkrunners.com.br/pay/" + payId.id);
+          const paid = await database.EventsPayments.create({guid: pref.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
+          return res.status(200).json("http://www.sharkrunners.com.br/pay/" + pref.id);
         }
         catch(error)
         {
@@ -75,20 +74,16 @@ class PayController {
     {
       if (req.query["type"] == "payment" || req.query["topic"] == "payment")
       {
-        console.log(req.query);
         const payment = await mercadopago.payment.findById(req.query["data.id"]||req.query["id"]);
-        console.log(payment.body);
-        const { payer } = payment.body.additional_info;
-        const event = payment.body.additional_info.items[0];
+        const order = await mercadopago.merchant_orders.findById(payment.body.order.id);
+        console.log("payment", payment);
+        console.log("order", order);
         if (payment.body.status == 'approved')
         {
-          const member = await database.Members.findOne({
-            where: { cpf: payer.identification.number }
-          });
-          await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: member.id, event_id: Number(event.id)}});
-          await database.EventsConfirmations.update({paid: true}, { where: {member_id:member.id, event_id: Number(event.id)}})
+          const pay = await database.EventsPayments.update({status: 'APPROVED'}, { where: {guid: order.body.preference_id}});
+          await database.EventsConfirmations.update({paid: true}, { where: {member_id:pay.member_id, event_id: pay.event_id}})
           //Send to BOT payment receive
-          await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: member.id, eventId: event.id});
+          await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: pay.member_id, eventId: pay.event_id});
           return res.status(200).json(payment.body);
         }
       }
