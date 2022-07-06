@@ -7,6 +7,10 @@ module.exports = {
         type: Sequelize.STRING,
         primaryKey: true
       },
+      url: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       order_id: {
         allowNull: true,
         type: Sequelize.STRING,

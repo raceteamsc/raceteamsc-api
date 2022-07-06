@@ -6,5 +6,5 @@ router
   .post('/create', PayController.createPay)
   .post('/update', PayController.payUpdate)
   .get('/check', PayController.checkPay)
-  .get('/:guid', PayController.payPage)
+  .get('/:url', PayController.payPage)
 module.exports = router;

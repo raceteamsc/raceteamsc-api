@@ -1,5 +1,6 @@
 const database = require('../models');
 const axios = require('axios');
+const friendlyUrl = require('friendly-url')
 // SDK do Mercado Pago
 const mercadopago = require ('mercadopago');
 // Adicione as credenciais
@@ -45,7 +46,14 @@ class PayController {
                 rej(error);
               });
           });
-          const paid = await database.EventsPayments.create({pref_id: pref.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
+          const paid = await database.EventsPayments.create(
+            {
+              pref_id: pref.id, 
+              url: `${friendlyUrl(eventConfirm.Event.name)}/${friendlyUrl(eventConfirm.Member.name)}`,
+              event_id: Number(eventId), 
+              member_id: Number(memberId), 
+              status: "WAITING"
+            });
           return res.status(200).json("http://www.sharkrunners.com.br/pay/" + pref.id);
         }
         catch(error)
@@ -62,8 +70,9 @@ class PayController {
     }
   }
   static async payPage(req, res) {
-    const { guid } = req.params;
-    res.redirect("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + guid);
+    const { url } = req.params;
+    const paid = await database.EventsPayments.findOne({ where: {url:url}});
+    res.redirect("https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=" + paid.pref_id);
   }
   static async payUpdate(req, res) {
     try

@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'EventsPayments',
     {
       pref_id: DataTypes.STRING,
+      url: DataTypes.STRING,
       order_id: DataTypes.STRING,
       pay_id: DataTypes.STRING,
       member_id: DataTypes.INTEGER,
