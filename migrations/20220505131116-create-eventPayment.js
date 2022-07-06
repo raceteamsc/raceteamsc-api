@@ -2,10 +2,18 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('EventsPayments', {
-      guid: {
+      pref_id: {
         allowNull: false,
         type: Sequelize.STRING,
         primaryKey: true
+      },
+      order_id: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      pay_id: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
       member_id: {
         allowNull: false,

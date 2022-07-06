@@ -15,7 +15,7 @@ class PayController {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
       if (eventPayExistent)
       {
-        return res.status(200).json("http://www.sharkrunners.com.br/pay/" + eventPayExistent.guid);
+        return res.status(200).json("http://www.sharkrunners.com.br/pay/" + eventPayExistent.pref_id);
       }
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}, include: [database.Members, database.Events]});
       if (eventConfirm)
@@ -45,7 +45,7 @@ class PayController {
                 rej(error);
               });
           });
-          const paid = await database.EventsPayments.create({guid: pref.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
+          const paid = await database.EventsPayments.create({pref_id: pref.id, event_id: Number(eventId), member_id: Number(memberId), status: "WAITING"});
           return res.status(200).json("http://www.sharkrunners.com.br/pay/" + pref.id);
         }
         catch(error)
@@ -74,20 +74,25 @@ class PayController {
         const order = await mercadopago.merchant_orders.findById(payment.body.order.id);
         if (payment.body.status == 'approved')
         {
-          const paid = await database.EventsPayments.findOne({ where: {guid: order.body.preference_id}});
+          const paid = await database.EventsPayments.findOne({ where: {pref_id: order.body.preference_id}});
           if (paid.status == 'APPROVED')
           {
             return res.status(200).json({});
           }
 
-          const pay = (await database.EventsPayments.update({status: 'APPROVED'}, 
-          { 
-            where: {
-              guid: order.body.preference_id
+          const pay = (await database.EventsPayments.update(
+            {
+              status: 'APPROVED',
+              order_id: order.body.id,
+              pay_id: payment.body.id
             }, 
-            returning: true,
-            plain: true
-          }))[1].dataValues;
+            { 
+              where: {
+                pref_id: order.body.preference_id
+              }, 
+              returning: true,
+              plain: true
+            }))[1].dataValues;
           
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:pay.member_id, event_id: pay.event_id}})
           //Send to BOT payment receive

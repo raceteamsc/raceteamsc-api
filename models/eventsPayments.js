@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
   const EventsPayments = sequelize.define(
     'EventsPayments',
     {
-      guid: DataTypes.STRING,
+      pref_id: DataTypes.STRING,
+      order_id: DataTypes.STRING,
+      pay_id: DataTypes.STRING,
       member_id: DataTypes.INTEGER,
       event_id: DataTypes.INTEGER,
       status: DataTypes.STRING,
