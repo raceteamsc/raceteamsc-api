@@ -85,6 +85,11 @@ class PayController {
           const member = await database.Members.findOne({
             where: { cpf: payer.identification.number }
           });
+          const paied = await database.EventsPayments.findOne({ where: {member_id: member.id, event_id: Number(event.id)}});
+          if (paied.status == 'APPROVED')
+          {
+            return res.status(200).json({});
+          }
           await database.EventsPayments.update({status: 'APPROVED'}, { where: {member_id: member.id, event_id: Number(event.id)}});
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:member.id, event_id: Number(event.id)}})
           //Send to BOT payment receive
