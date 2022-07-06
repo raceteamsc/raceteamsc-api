@@ -1,6 +1,23 @@
 const database = require('../models');
 
 class MembersController {
+  static async login(req, res) {
+    const {number, password} = req.body;
+    const member = await database.Members.findOne({
+      where: { number: number }
+    });
+    if (member)
+    {
+      if (member.role == "admin")
+      {
+        if (password == "audia3bengador")
+        {
+          return res.status(200).send("b6f1eb97-84ad-4156-bde2-f1e14d8e7cdf");
+        }
+      }
+    }
+    return res.status(401).send();
+  }
   static async getAllMembers(req, res) {
     try {
       const Members = await database.Members.findAll();

@@ -9,6 +9,7 @@ router
   .get('/members/:id/participants', MembersController.getEvents)
   .get('/members/:id/status/:eventId', MembersController.getStatus)
   .post('/members',MembersController.createMember)
+  .post('/login',MembersController.login)
   .put('/members/:id',MembersController.updateMember)
   .delete('/members/:id', MembersController.deleteMember);
 module.exports = router;
