@@ -1,5 +1,5 @@
 const database = require('../models');
-
+const {key} = require("../routes/checkHeader");
 class MembersController {
   static async login(req, res) {
     const {number, password} = req.body;
@@ -12,7 +12,7 @@ class MembersController {
       {
         if (password == "audia3bengador")
         {
-          return res.status(200).send("b6f1eb97-84ad-4156-bde2-f1e14d8e7cdf");
+          return res.status(200).send(key);
         }
       }
     }

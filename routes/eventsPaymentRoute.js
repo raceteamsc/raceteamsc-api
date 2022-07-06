@@ -1,10 +1,10 @@
 const { Router } = require('express');
 const PayController = require('../controllers/PayController');
-
+const {checkHeader} = require('./checkHeader');
 const router = Router();
 router
-  .post('/create', PayController.createPay)
-  .post('/update', PayController.payUpdate)
-  .get('/check', PayController.checkPay)
-  .get('/:url', PayController.payPage)
+  .post('/pay/create', checkHeader, PayController.createPay)
+  .post('/pay/update', checkHeader, PayController.payUpdate)
+  .get('/pay/check', checkHeader, PayController.checkPay)
+  .get('/pay/:url', PayController.payPage)
 module.exports = router;
