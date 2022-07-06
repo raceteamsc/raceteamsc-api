@@ -16,7 +16,7 @@ class PayController {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
       if (eventPayExistent)
       {
-        return res.status(200).json("http://www.sharkrunners.com.br/pay/" + eventPayExistent.url);
+        return res.status(200).json("http://api.sharkrunners.com.br/pay/" + eventPayExistent.url);
       }
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}, include: [database.Members, database.Events]});
       if (eventConfirm)
@@ -55,7 +55,7 @@ class PayController {
               member_id: Number(memberId), 
               status: "WAITING"
             });
-          return res.status(200).json("http://www.sharkrunners.com.br/pay/" + url);
+          return res.status(200).json("http://api.sharkrunners.com.br/pay/" + url);
         }
         catch(error)
         {

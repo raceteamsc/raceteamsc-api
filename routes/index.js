@@ -12,6 +12,6 @@ module.exports = (app) => {
     else
       res.status(401).json({message: "You do not have permission to access this route"})
   }
-  app.use("/api", checkHeader, bodyParser.json({ limit: 52428800 }), events, members, locals);
+  app.use("/", checkHeader, bodyParser.json({ limit: 52428800 }), events, members, locals);
   app.use("/pay", bodyParser.json({ limit: 52428800 }), pay);
 };
