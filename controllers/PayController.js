@@ -76,7 +76,7 @@ class PayController {
         {
           console.log("order", order);
           const pay = await database.EventsPayments.update({status: 'APPROVED'}, { where: {guid: order.body.preference_id}});
-          console.log("pay", pay);
+          console.log("pay", pay[0]);
           return res.status(402).json({});
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:pay.member_id, event_id: pay.event_id}})
           //Send to BOT payment receive
