@@ -74,10 +74,14 @@ class PayController {
         const order = await mercadopago.merchant_orders.findById(payment.body.order.id);
         if (payment.body.status == 'approved')
         {
-          console.log("order", order);
-          const pay = await database.EventsPayments.update({status: 'APPROVED'}, { where: {guid: order.body.preference_id}});
-          console.log("pay", pay[0]);
-          return res.status(402).json({});
+          const pay = (await database.EventsPayments.update({status: 'APPROVED'}, 
+          { 
+            where: {
+              guid: order.body.preference_id
+            }, 
+            returning: true,
+            plain: true
+          }))[1].dataValues;
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:pay.member_id, event_id: pay.event_id}})
           //Send to BOT payment receive
           await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: pay.member_id, eventId: pay.event_id});
