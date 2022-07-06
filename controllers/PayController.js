@@ -38,7 +38,7 @@ class PayController {
         };
         try
         {
-          const url = `${friendlyUrl(eventConfirm.Event.name)}/${friendlyUrl(eventConfirm.Member.name)}`;
+          const url = friendlyUrl(`evento ${eventConfirm.Event.name} ${eventConfirm.Member.name}`);
           const pref = await new Promise((res, rej) => {
             mercadopago.preferences.create(preference)
               .then(function(response){
