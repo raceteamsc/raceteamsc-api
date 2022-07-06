@@ -4,8 +4,8 @@ const axios = require('axios');
 const mercadopago = require ('mercadopago');
 // Adicione as credenciais
 mercadopago.configure({
-  //access_token: 'APP_USR-955896192475306-062215-be3dd45f006923e8f148aba62ebe519b-228477385'
-  access_token: 'TEST-955896192475306-062215-6b0160d96f5bd32973edce49c6513dde-228477385'
+  access_token: 'APP_USR-955896192475306-062215-be3dd45f006923e8f148aba62ebe519b-228477385'
+  //access_token: 'TEST-955896192475306-062215-6b0160d96f5bd32973edce49c6513dde-228477385'
 });
 
 class PayController {
@@ -72,11 +72,11 @@ class PayController {
       {
         const payment = await mercadopago.payment.findById(req.query["data.id"]||req.query["id"]);
         const order = await mercadopago.merchant_orders.findById(payment.body.order.id);
-        console.log("payment", payment);
-        console.log("order", order);
         if (payment.body.status == 'approved')
         {
           const pay = await database.EventsPayments.update({status: 'APPROVED'}, { where: {guid: order.body.preference_id}});
+          console.log("pay", pay);
+          return res.status(402).json({});
           await database.EventsConfirmations.update({paid: true}, { where: {member_id:pay.member_id, event_id: pay.event_id}})
           //Send to BOT payment receive
           await axios.post("https://sharkwpbot.herokuapp.com/payReceive", {memberId: pay.member_id, eventId: pay.event_id});
