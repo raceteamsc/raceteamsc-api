@@ -74,6 +74,7 @@ class PayController {
         const order = await mercadopago.merchant_orders.findById(payment.body.order.id);
         if (payment.body.status == 'approved')
         {
+          console.log("order", order);
           const pay = await database.EventsPayments.update({status: 'APPROVED'}, { where: {guid: order.body.preference_id}});
           console.log("pay", pay);
           return res.status(402).json({});
