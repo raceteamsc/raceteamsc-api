@@ -12,7 +12,7 @@ class MembersController {
       {
         if (password == "audia3bengador")
         {
-          return res.status(200).send(key);
+          return res.status(200).json({access_token: key, member});
         }
       }
     }
