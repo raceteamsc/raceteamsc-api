@@ -16,7 +16,7 @@ class PayController {
       var eventPayExistent = await database.EventsPayments.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}});
       if (eventPayExistent)
       {
-        return res.status(200).json("http://www.sharkrunners.com.br/pay/" + eventPayExistent.pref_id);
+        return res.status(200).json("http://www.sharkrunners.com.br/pay/" + eventPayExistent.url);
       }
       var eventConfirm = await database.EventsConfirmations.findOne({ where: {event_id: Number(eventId), member_id: Number(memberId)}, include: [database.Members, database.Events]});
       if (eventConfirm)
@@ -38,6 +38,7 @@ class PayController {
         };
         try
         {
+          const url = `${friendlyUrl(eventConfirm.Event.name)}/${friendlyUrl(eventConfirm.Member.name)}`;
           const pref = await new Promise((res, rej) => {
             mercadopago.preferences.create(preference)
               .then(function(response){
@@ -49,12 +50,12 @@ class PayController {
           const paid = await database.EventsPayments.create(
             {
               pref_id: pref.id, 
-              url: `${friendlyUrl(eventConfirm.Event.name)}/${friendlyUrl(eventConfirm.Member.name)}`,
+              url: url,
               event_id: Number(eventId), 
               member_id: Number(memberId), 
               status: "WAITING"
             });
-          return res.status(200).json("http://www.sharkrunners.com.br/pay/" + pref.id);
+          return res.status(200).json("http://www.sharkrunners.com.br/pay/" + url);
         }
         catch(error)
         {
