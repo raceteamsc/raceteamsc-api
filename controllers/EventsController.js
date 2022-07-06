@@ -42,6 +42,7 @@ class EventsController {
         where: {
           name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Events.name')), 'LIKE', '%' + search + '%')
         },
+        order: [['date']],
         include: database.Locals
       });
       return res.status(200).json(event);
