@@ -27,8 +27,7 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "start": "node index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
   },
   "repository": {
     "type": "git"
