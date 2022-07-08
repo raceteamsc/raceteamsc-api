@@ -1,19 +1,16 @@
 {
   "development": {
-    "username": "guhlgcpthmzjym",
-    "password": "918ca70b17146716f34e05e6d3b4683ade04226647048b72fe460b7e6e332f20",
-    "database": "dem6uvcncevl1u",
-    "host": "ec2-23-23-151-191.compute-1.amazonaws.com",
-    "dialect": "postgres",
-    "dialectOptions": {
-       "ssl": {
-         "require": true,
-         "rejectUnauthorized": false
-       }
-     }
+    "username": "postgres",
+    "password": "8489",
+    "database": "shark",
+    "host": "localhost",
+    "dialect": "postgres"
   },
   "production": {
-    "use_env_variable": "DATABASE_URL",
+    "username": "shark",
+    "password": "Audia3bengador",
+    "database": "shark",
+    "host": "sharkstore.postgres.database.azure.com",
     "dialect": "postgres",
     "dialectOptions": {
        "ssl": {
