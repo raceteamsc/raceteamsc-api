@@ -1,12 +1,12 @@
 {
-  "development2": {
+  "development": {
     "username": "postgres",
     "password": "8489",
     "database": "shark",
     "host": "localhost",
     "dialect": "postgres"
   },
-  "development": {
+  "development2": {
     "username": "shark",
     "password": "Audia3bengador",
     "database": "shark",
@@ -20,10 +20,7 @@
      }
   },
   "production": {
-    "username": "shark",
-    "password": "Audia3bengador",
-    "database": "shark",
-    "host": "sharkstore.postgres.database.azure.com",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "dialectOptions": {
        "ssl": {

@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const EventsController = require('../controllers/EventsController');
 const {checkHeader} = require('./checkHeader');
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 const router = Router();
 router
@@ -13,7 +15,7 @@ router
   .post('/events/:id/pay', checkHeader, EventsController.paidParticipant)
   .post('/events/:id/checkout', checkHeader, EventsController.checkoutParticipant)
   .post('/events/:id/recuse', checkHeader, EventsController.recuseParticipant)
-  .post('/events',checkHeader, EventsController.createEvent)
+  .post('/events',checkHeader, upload.single('file'), EventsController.createEvent)
   .put('/events/:id/cancel',checkHeader, EventsController.cancelEvent)
   .put('/events/:id/uncancel',checkHeader, EventsController.uncancelEvent)
   .delete('/events/:id', checkHeader, EventsController.deleteEvent);

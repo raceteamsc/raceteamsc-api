@@ -52,6 +52,8 @@ class EventsController {
   }
 
   static async createEvent(req, res) {
+    console.log(req.file);
+    return res.send(req.file);
     const body = req.body;
     try {
       const newEvent = await database.Events.create(body);
