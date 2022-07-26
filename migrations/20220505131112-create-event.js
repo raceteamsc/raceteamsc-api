@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       branch_id: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         references: { model: 'Branchs', key: 'id' },
       },

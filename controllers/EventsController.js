@@ -15,7 +15,7 @@ class EventsController {
           }
         },
         order: [['date']],
-        include: database.Locals
+        include: [database.Locals, database.Branchs]
       });
       return res.status(200).json(events);
     } catch (error) {
@@ -27,7 +27,7 @@ class EventsController {
     try {
       const event = await database.Events.findOne({
         where: { id: Number(id) },
-        include: database.Locals
+        include: [database.Locals, database.Branchs]
       });
       return res.status(200).json(event);
     } catch (error) {
@@ -43,7 +43,7 @@ class EventsController {
           name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Events.name')), 'LIKE', '%' + search + '%')
         },
         order: [['date']],
-        include: database.Locals
+        include: [database.Locals, database.Branchs]
       });
       return res.status(200).json(event);
     } catch (error) {

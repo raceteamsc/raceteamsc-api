@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       latitude: DataTypes.FLOAT,
       longitude: DataTypes.FLOAT,
-      random: DataTypes.BOOLEAN,
       createdAt: DataTypes.DATEONLY,
       updatedAt: DataTypes.DATEONLY,
     },

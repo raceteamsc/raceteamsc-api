@@ -12,7 +12,7 @@ class MembersController {
       {
         if (password == "audia3bengador")
         {
-          return res.status(200).json({access_token: key, member});
+          return res.status(200).json({access_token: process.env.VERIFY_TOKEN, member});
         }
       }
     }
@@ -30,8 +30,20 @@ class MembersController {
     const { number } = req.params;
     try {
       const member = await database.Members.findOne({
-        where: { number: number },
-        include: database.Members
+        where: { number: number }
+      });
+      if (!member)
+        return res.status(500).json("Membro não encontrado");
+      return res.status(200).json(member);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+  static async getMemberCars(req, res) {
+    const { id } = req.params;
+    try {
+      const member = await database.Cars.find({
+        where: { member_id: id }
       });
       if (!member)
         return res.status(500).json("Membro não encontrado");
@@ -44,8 +56,7 @@ class MembersController {
     const { id } = req.params;
     try {
       const member = await database.Members.findOne({
-        where: { id: id },
-        include: database.Members
+        where: { id: id }
       });
       if (!member)
         return res.status(500).json("Membro não encontrado");

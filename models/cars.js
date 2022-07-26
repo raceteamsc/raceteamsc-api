@@ -17,5 +17,5 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'member_id',
     });
   };
-  return Branchs;
+  return Cars;
 };
