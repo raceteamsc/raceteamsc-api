@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "8489",
-    "database": "shark",
+    "database": "raceteamsc",
     "host": "localhost",
     "dialect": "postgres"
   },

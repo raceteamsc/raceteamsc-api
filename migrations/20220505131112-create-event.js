@@ -12,24 +12,21 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      branch_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: 'Branchs', key: 'id' },
+      },
       local_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: { model: 'Locals', key: 'id' },
-      },
-      member_only: {
-        allowNull: false,
-        type: Sequelize.BOOLEAN,
       },
       payable: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
       },
       media_url: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      pix: {
         allowNull: true,
         type: Sequelize.STRING,
       },

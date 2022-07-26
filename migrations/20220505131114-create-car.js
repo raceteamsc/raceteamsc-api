@@ -1,27 +1,19 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Members', {
+    return queryInterface.createTable('Cars', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      branch_id: {
+      member_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { model: 'Branchs', key: 'id' },
+        references: { model: 'Members', key: 'id' },
       },
-      name: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      role: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      number: {
+      plate: {
         allowNull: false,
         type: Sequelize.STRING,
       },
