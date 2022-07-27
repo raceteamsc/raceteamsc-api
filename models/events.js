@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'Events',
     {
       name: DataTypes.STRING,
+      description: DataTypes.STRING,
       local_id: DataTypes.INTEGER,
       branch_id: DataTypes.INTEGER,
       date: DataTypes.DATEONLY,
@@ -11,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       media_url: DataTypes.STRING,
       price: DataTypes.FLOAT,
       canceled: DataTypes.BOOLEAN,
+      sympla_link: DataTypes.STRING,
       createdAt: DataTypes.DATEONLY,
       updatedAt: DataTypes.DATEONLY,
     },
