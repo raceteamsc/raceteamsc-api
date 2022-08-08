@@ -8,6 +8,8 @@ router
   .get('/branchs/:id', checkHeader, BranchsController.getBranch)
   .get('/branchs/main/events', checkHeader, BranchsController.getAllMainEvents)
   .get('/branchs/:branch/events', checkHeader, BranchsController.getAllEvents)
+  .get('/branchs/:branch/locals', checkHeader, BranchsController.getAllLocals)
+  .get('/branchs/:branch/members', checkHeader, BranchsController.getAllMembers)
   .post('/branchs',checkHeader, BranchsController.createBranch)
   .put('/branchs',checkHeader, BranchsController.updateBranch)
   .delete('/events/:id', checkHeader, BranchsController.deleteBranch);

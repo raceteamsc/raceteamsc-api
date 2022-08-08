@@ -1,10 +1,18 @@
 const database = require('../models');
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const sympla = require('../services/sympla');
+const bot = require('../services/bot');
+const whatsapp = require('../services/whatsapp');
+const FormData = require('form-data');
+const fs = require('fs');
+const path = require("path");
 
 class EventsController {
   static async getAllEvents(req, res) {
     try {
+      const symplaEvents = await sympla.get("/events");
+      console.log(symplaEvents.data);
       const events = await database.Events.findAll({
         where: {
           date: {
@@ -52,10 +60,24 @@ class EventsController {
   }
 
   static async createEvent(req, res) {
-    console.log(req.file);
-    return res.send(req.file);
-    const body = req.body;
+    let {body, file} = req;
     try {
+      if (file) {
+        const form = new FormData();
+
+        // Append text fields to the form
+        const originalPath = path.resolve(__dirname,"../" + file.path);
+        fs.renameSync(originalPath, originalPath + ".jpg")
+        const localFile = fs.createReadStream(originalPath + ".jpg");
+        
+        form.append('file', localFile);
+        form.append('messaging_product', "whatsapp");
+
+        const res = await whatsapp.post('/media', form)
+          .catch((e) => console.error(e.response.data))
+        if (res)
+          body.media_url = res.data.id;
+      }
       const newEvent = await database.Events.create(body);
       return res.status(200).json(newEvent);
     } catch (error) {

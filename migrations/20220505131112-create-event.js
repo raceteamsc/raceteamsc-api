@@ -31,7 +31,7 @@ module.exports = {
         references: { model: 'Locals', key: 'id' },
       },
       payable: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
       },
       media_url: {

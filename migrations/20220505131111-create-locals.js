@@ -12,12 +12,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      latitude: {
+      branch_id: {
         allowNull: true,
+        type: Sequelize.INTEGER,
+        references: { model: 'Branchs', key: 'id' },
+      },
+      latitude: {
+        allowNull: false,
         type: Sequelize.FLOAT,
       },
       longitude: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.FLOAT,
       },
       createdAt: {

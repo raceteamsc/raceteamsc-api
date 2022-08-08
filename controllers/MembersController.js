@@ -2,15 +2,15 @@ const database = require('../models');
 const {key} = require("../routes/checkHeader");
 class MembersController {
   static async login(req, res) {
-    const {number, password} = req.body;
+    const {name, password} = req.body;
     const member = await database.Members.findOne({
-      where: { number: number }
+      where: { name: name }
     });
     if (member)
     {
       if (member.role == "admin")
       {
-        if (password == "audia3bengador")
+        if (password == "RaceTeam2022")
         {
           return res.status(200).json({access_token: process.env.VERIFY_TOKEN, member});
         }
@@ -20,8 +20,20 @@ class MembersController {
   }
   static async getAllMembers(req, res) {
     try {
-      const Members = await database.Members.findAll();
-      return res.status(200).json(Members);
+      let branchs = {}
+      const Members = await database.Members.findAll({
+        include: [database.Branchs]
+      });
+      Members.map((member) => {
+        if (branchs[member.dataValues.Branch.dataValues.id] == undefined)
+        {
+          branchs[member.dataValues.Branch.dataValues.id] = member.Branch.dataValues;
+          branchs[member.dataValues.Branch.dataValues.id].members = [];
+        }
+        delete member.dataValues.Branch;
+        branchs[member.Branch.dataValues.id].members.push(member);
+      });
+      return res.status(200).json(Object.values(branchs));
     } catch (error) {
       return res.status(500).json(error.message);
     }

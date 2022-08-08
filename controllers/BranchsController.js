@@ -22,6 +22,20 @@ class BranchsController {
       return res.status(500).json(error.message);
     }
   }
+  static async getAllMembers(req, res) {
+    const { branch } = req.params;
+    try {
+      const events = await database.Members.findAll({
+        where: {
+          branch_id: branch
+        },
+        include: [database.Branchs]
+      });
+      return res.status(200).json(events);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
   static async getAllEvents(req, res) {
     const { branch } = req.params;
     try {
@@ -59,6 +73,19 @@ class BranchsController {
         include: database.Locals
       });
       return res.status(200).json(events);
+    } catch (error) {
+      return res.status(500).json(error.message);
+    }
+  }
+  static async getAllLocals(req, res) {
+    const { branch } = req.params;
+    try {
+      const locals = await database.Locals.findAll({
+        where: {
+          branch_id: branch
+        },
+      });
+      return res.status(200).json(locals);
     } catch (error) {
       return res.status(500).json(error.message);
     }
