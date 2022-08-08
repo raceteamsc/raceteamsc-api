@@ -17,6 +17,7 @@ router
   .post('/events/:id/recuse', checkHeader, EventsController.recuseParticipant)
   .post('/events',checkHeader, upload.single('file'), EventsController.createEvent)
   .put('/events/:id/cancel',checkHeader, EventsController.cancelEvent)
+  .put('/events/:id',checkHeader, upload.single('file'), EventsController.updateEvent)
   .put('/events/:id/uncancel',checkHeader, EventsController.uncancelEvent)
   .delete('/events/:id', checkHeader, EventsController.deleteEvent);
 module.exports = router;

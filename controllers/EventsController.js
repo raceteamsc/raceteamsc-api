@@ -202,14 +202,31 @@ class EventsController {
 
   static async updateEvent(req, res) {
     const { id } = req.params;
-    const newInfos = req.body;
+    let {body, file} = req;
     try {
-      await database.Events.update(newInfos, { where: { id: Number(id) } });
+      if (file) {
+        const form = new FormData();
+
+        // Append text fields to the form
+        const originalPath = path.resolve(__dirname,"../" + file.path);
+        fs.renameSync(originalPath, originalPath + ".jpg")
+        const localFile = fs.createReadStream(originalPath + ".jpg");
+        
+        form.append('file', localFile);
+        form.append('messaging_product', "whatsapp");
+
+        const res = await whatsapp.post('/media', form)
+          .catch((e) => console.error(e.response.data))
+        if (res)
+          body.media_url = res.data.id;
+      }
+      await database.Events.update(body, { where: { id: Number(id) } });
       const eventUpdated = await database.Events.findOne({
         where: { id: Number(id) },
       });
       return res.status(200).json(eventUpdated);
     } catch (error) {
+      console.error(error.message)
       return res.status(500).json(error.message);
     }
   }
