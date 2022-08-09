@@ -7,12 +7,11 @@ const whatsapp = require('../services/whatsapp');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require("path");
+const BranchsController = require('./BranchsController');
 
 class EventsController {
   static async getAllEvents(req, res) {
     try {
-      const symplaEvents = await sympla.get("/events");
-      console.log(symplaEvents.data);
       const events = await database.Events.findAll({
         where: {
           date: {
@@ -33,6 +32,13 @@ class EventsController {
   static async getEvent(req, res) {
     const { id } = req.params;
     try {
+      const symplaEvents = await BranchsController.getSymplaEvents();
+      const symplaEvent = symplaEvents.find(event => event.id == id);
+      if (symplaEvent)
+      {
+        return res.status(200).json(symplaEvent);
+      }
+
       const event = await database.Events.findOne({
         where: { id: Number(id) },
         include: [database.Locals, database.Branchs]
@@ -44,7 +50,6 @@ class EventsController {
   }
   static async searchEvent(req, res) {
     const { search } = req.params;
-    console.log(req.params);
     try {
       const event = await database.Events.findAll({
         where: {
@@ -62,6 +67,8 @@ class EventsController {
   static async createEvent(req, res) {
     let {body, file} = req;
     try {
+      body.date = new Date(body.date);
+      console.log(body);
       if (file) {
         const form = new FormData();
 
@@ -75,9 +82,11 @@ class EventsController {
 
         const res = await whatsapp.post('/media', form)
           .catch((e) => console.error(e.response.data))
+          
         if (res)
           body.media_url = res.data.id;
       }
+      body.active = true;
       const newEvent = await database.Events.create(body);
       return res.status(200).json(newEvent);
     } catch (error) {

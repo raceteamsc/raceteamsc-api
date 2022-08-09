@@ -1,6 +1,7 @@
 const database = require('../models');
 const sequelize = require("sequelize");
 const { Op } = require("sequelize");
+const sympla = require('../services/sympla');
 
 class BranchsController {
   static async getAllBranchs(req, res) {
@@ -57,8 +58,32 @@ class BranchsController {
       return res.status(500).json(error.message);
     }
   }
+  static async getSymplaEvents() {
+    const symplaRes = await sympla.get("/events")
+      .catch(console.error)
+    let symplaEvents = symplaRes.data;
+    symplaEvents = symplaEvents.data.filter(event => {
+      const date = new Date(event.start_date);
+      return date >= Date.now();
+    });
+    symplaEvents = symplaEvents.map(event => ({
+      id: event.id,
+      date: event.start_date,
+      name: event.name,
+      description: event.detail,
+      active: true,
+      is_sympla: true,
+      sympla_link: event.url.replace('https://www.sympla.com.br/',''),
+      sympla_image: event.image,
+      Local: {
+        name: event.address.name
+      }
+    }))
+    return symplaEvents;
+  }
   static async getAllMainEvents(req, res) {
     try {
+      const symplaEvents = await BranchsController.getSymplaEvents();
       const events = await database.Events.findAll({
         where: {
           branch_id: null,
@@ -72,7 +97,8 @@ class BranchsController {
         order: [['date']],
         include: database.Locals
       });
-      return res.status(200).json(events);
+      console.log([...events, ...symplaEvents]);
+      return res.status(200).json([...events, ...symplaEvents]);
     } catch (error) {
       return res.status(500).json(error.message);
     }

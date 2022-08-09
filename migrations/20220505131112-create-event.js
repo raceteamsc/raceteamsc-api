@@ -42,8 +42,8 @@ module.exports = {
         allowNull: true,
         type: Sequelize.FLOAT,
       },
-      canceled: {
-        allowNull: true,
+      active: {
+        allowNull: false,
         type: Sequelize.BOOLEAN,
         default: false
       },
