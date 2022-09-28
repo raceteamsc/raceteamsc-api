@@ -73,7 +73,7 @@ class BranchsController {
       description: event.detail,
       active: true,
       is_sympla: true,
-      sympla_link: event.url.replace('https://www.sympla.com.br/',''),
+      sympla_link: event.url,
       sympla_image: event.image,
       Local: {
         name: event.address.name
