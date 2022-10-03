@@ -12,6 +12,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      address: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
       branch_id: {
         allowNull: true,
         type: Sequelize.INTEGER,

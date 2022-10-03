@@ -13,7 +13,7 @@ class LocalsController {
     const { id } = req.params;
     try {
       const Local = await database.Locals.findOne({
-        where: { id: number },
+        where: { id: id },
       });
       if (!Local)
         return res.status(500).json("Local não encontrado");
@@ -34,8 +34,9 @@ class LocalsController {
   }
 
   static async createLocal(req, res) {
-    const body = req.body;
+    const { body } = req;
     try {
+      console.log(body);
       const newLocal = await database.Locals.create(body);
       return res.status(200).json(newLocal);
     } catch (error) {

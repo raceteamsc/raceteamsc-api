@@ -7,5 +7,9 @@ const locals = require('./localsRoute');
 const pay = require('./eventsPaymentRoute');
 
 module.exports = (app) => {
-  app.use("/", bodyParser.json({ limit: 52428800 }), events, branchs, members, locals, pay);
+  app.use(bodyParser.urlencoded({
+          extended: false
+  }));
+  app.use(bodyParser.json());
+  app.use("/", events, branchs, members, locals, pay);
 };

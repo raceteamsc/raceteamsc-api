@@ -68,7 +68,6 @@ class EventsController {
     let {body, file} = req;
     try {
       body.date = new Date(body.date);
-      console.log(body);
       if (file) {
         const form = new FormData();
 

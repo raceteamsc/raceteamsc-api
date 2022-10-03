@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'Locals',
     {
       name: DataTypes.STRING,
+      address: DataTypes.STRING,
       latitude: DataTypes.FLOAT,
       longitude: DataTypes.FLOAT,
       branch_id: DataTypes.INTEGER,
