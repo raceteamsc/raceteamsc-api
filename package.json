@@ -30,7 +30,8 @@
     "nodemon": "^2.0.19"
   },
   "scripts": {
-    "start": "nodemon index"
+    "start": "nodemon index",
+    "start:prod": "node index"
   },
   "repository": {
     "type": "git"

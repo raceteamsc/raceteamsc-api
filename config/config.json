@@ -7,9 +7,9 @@
     "dialect": "postgres"
   },
   "development2": {
-    "username": "shark",
-    "password": "Audia3bengador",
-    "database": "shark",
+    "username": "Chrystian",
+    "password": "RaceTeamSC2022",
+    "database": "raceteamsc",
     "host": "sharkstore.postgres.database.azure.com",
     "dialect": "postgres",
     "dialectOptions": {
