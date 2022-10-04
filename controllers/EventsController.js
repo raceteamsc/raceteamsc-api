@@ -127,7 +127,7 @@ class EventsController {
         eventConfirm = await database.EventsConfirmations.update({confirmed: true}, {where: {event_id: Number(id), member_id: Number(memberId)}})
         return res.status(200).json(eventConfirm);
       }
-      eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), confirmed: true});
+      eventConfirm = await database.EventsConfirmations.create({event_id: Number(id), member_id: Number(memberId), confirmed: true, checkin: false, paid: false});
       return res.status(200).json(eventConfirm);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -199,7 +199,7 @@ class EventsController {
           event_id: Number(id),
           confirmed: true
         },
-        include: { all: true }
+        include: [database.Members]
       });
       return res.status(200).json(events);
     } catch (error) {
