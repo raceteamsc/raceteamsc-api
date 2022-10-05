@@ -2,7 +2,17 @@ const { Router } = require('express');
 const EventsController = require('../controllers/EventsController');
 const {checkHeader} = require('./checkHeader');
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.jpg') //Appending .jpg
+  }
+})
+
+const upload = multer({ storage: storage })
 
 const router = Router();
 router

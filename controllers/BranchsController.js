@@ -97,7 +97,6 @@ class BranchsController {
         order: [['date']],
         include: database.Locals
       });
-      console.log([...events, ...symplaEvents]);
       return res.status(200).json([...events, ...symplaEvents]);
     } catch (error) {
       return res.status(500).json(error.message);

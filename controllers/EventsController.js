@@ -68,23 +68,7 @@ class EventsController {
     let {body, file} = req;
     try {
       body.date = new Date(body.date);
-      if (file) {
-        const form = new FormData();
-
-        // Append text fields to the form
-        const originalPath = path.resolve(__dirname,"../" + file.path);
-        fs.renameSync(originalPath, originalPath + ".jpg")
-        const localFile = fs.createReadStream(originalPath + ".jpg");
-        
-        form.append('file', localFile);
-        form.append('messaging_product', "whatsapp");
-
-        const res = await whatsapp.post('/media', form)
-          .catch((e) => console.error(e.response.data))
-          
-        if (res)
-          body.media_url = res.data.id;
-      }
+      body.media_url = file?.filename;
       body.active = true;
       const newEvent = await database.Events.create(body);
       return res.status(200).json(newEvent);
@@ -212,22 +196,7 @@ class EventsController {
     const { id } = req.params;
     let {body, file} = req;
     try {
-      if (file) {
-        const form = new FormData();
-
-        // Append text fields to the form
-        const originalPath = path.resolve(__dirname,"../" + file.path);
-        fs.renameSync(originalPath, originalPath + ".jpg")
-        const localFile = fs.createReadStream(originalPath + ".jpg");
-        
-        form.append('file', localFile);
-        form.append('messaging_product', "whatsapp");
-
-        const res = await whatsapp.post('/media', form)
-          .catch((e) => console.error(e.response.data))
-        if (res)
-          body.media_url = res.data.id;
-      }
+      body.media_url = file?.filename;
       await database.Events.update(body, { where: { id: Number(id) } });
       const eventUpdated = await database.Events.findOne({
         where: { id: Number(id) },
