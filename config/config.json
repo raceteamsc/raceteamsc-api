@@ -1,16 +1,16 @@
 {
-  "development": {
+  "development2": {
     "username": "postgres",
     "password": "8489",
     "database": "raceteamsc",
     "host": "localhost",
     "dialect": "postgres"
   },
-  "development2": {
-    "username": "Chrystian",
-    "password": "RaceTeamSC2022",
+  "development": {
+    "username": "raceteam",
+    "password": "Chrystian1999#",
     "database": "raceteamsc",
-    "host": "sharkstore.postgres.database.azure.com",
+    "host": "raceteamsc-db.postgres.database.azure.com",
     "dialect": "postgres",
     "dialectOptions": {
        "ssl": {
@@ -20,7 +20,10 @@
      }
   },
   "production": {
-    "use_env_variable": "DATABASE_URL",
+    "username": "raceteam",
+    "password": "Chrystian1999#",
+    "database": "raceteamsc",
+    "host": "raceteamsc-db.postgres.database.azure.com",
     "dialect": "postgres",
     "dialectOptions": {
        "ssl": {

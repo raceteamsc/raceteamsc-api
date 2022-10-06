@@ -4,7 +4,7 @@ const app = express();
 const routes = require('./routes');
 const cors = require('cors');
 const server = require('http').createServer(app);
-const port = process.env.PORT || 3001;
+const port = 8000;
 
 app.use(express.static('uploads'));
 
