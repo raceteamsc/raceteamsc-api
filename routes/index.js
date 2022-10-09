@@ -12,7 +12,5 @@ module.exports = (app) => {
           extended: false
   }));
   app.use(bodyParser.json());
-  app.use(express.static('public'));
-  app.get('*', (req, res) => res.sendFile(path.resolve('public', 'index.html')));
   app.use("/api/", events, branchs, members, locals, pay);
 };
